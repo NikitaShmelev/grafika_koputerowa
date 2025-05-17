@@ -1,12 +1,10 @@
-## Building
+## Building the Application
 
-To compile the application on macOS with Homebrew-installed GLFW:
+To compile on macOS with Homebrew-installed GLFW, GLAD and GLM:
 
 ```bash
 g++ main.cpp src/glad.c -std=c++17 \
     -Iinclude \
-    -I$(brew --prefix glfw)/include \
-    -L$(brew --prefix glfw)/lib \
-    -lglfw \
+    $(pkg-config --cflags --libs glfw3 glm) \
     -framework OpenGL \
-    -o app
+    -o app;./app

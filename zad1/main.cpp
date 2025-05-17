@@ -96,7 +96,6 @@ int main()
 
     glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
     glfwSetScrollCallback(window, scroll_callback);
-    glfwSetScrollCallback(window, scroll_callback);
     glfwSetKeyCallback   (window, key_callback);
 
     // Build and compile shaders
