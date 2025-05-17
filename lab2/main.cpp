@@ -48,6 +48,27 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
     glUniform1f(mixLoc, mixFactor);
 }
 
+bool showSquare   = false;
+bool showTriangle = false;
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    // reagujemy tylko na pojedyncze naciśnięcie
+    if (action == GLFW_PRESS) {
+        if (key == GLFW_KEY_Q) {
+            showSquare = !showSquare; // toggle kwadratu
+        }
+        else if (key == GLFW_KEY_T) {
+            showTriangle = !showTriangle; // toggle trójkąta
+        }
+        else if (key == GLFW_KEY_B) {
+            // 2 na raz
+            bool both = showSquare && showTriangle;
+            showSquare = showTriangle = !both;
+        }
+    }
+}
+
 int main()
 {
     // Initialize GLFW
@@ -75,6 +96,8 @@ int main()
 
     glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
     glfwSetScrollCallback(window, scroll_callback);
+    glfwSetScrollCallback(window, scroll_callback);
+    glfwSetKeyCallback   (window, key_callback);
 
     // Build and compile shaders
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -175,12 +198,7 @@ int main()
 
     // Render loop
     while (!glfwWindowShouldClose(window)) {
-        bool showSquare   = glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS;
-        bool showTriangle = glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS;
-        if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS) {
-            showSquare = showTriangle = true;
-        }
-
+        
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
